@@ -34,6 +34,7 @@
                   </td>
                   <!-- button 要加在 td 裡面，點擊時把 item 賦予給 temp 陣列，用來暫時顯示商品細節 -->
                   <td width="120">
+                    <!-- 按鈕綁定點擊事件，當點擊時，把點擊的 item 賦予自定義的資料 temp 物件中，後面就能在單一產品細節部分操作 temp 物件 -->
                     <button
                       type="button"
                       class="btn btn-success text-white"
@@ -51,6 +52,7 @@
           </div>
           <div class="col-md-6">
             <h2>單一產品細節</h2>
+            <!-- 用 v-if ->如果有 temp.title 就會顯示該區塊 -->
             <div v-if="temp.title">
               <div class="card mb-3">
                 <img
@@ -76,7 +78,7 @@
                   </p>
                 </div>
               </div>
-              <!-- 商品下方的其他圖片 -->
+              <!-- 商品下方的其他圖片，會在 card 外，又因為要並排所以刻意用 span 行內元素包住 img。因為是陣列，所以用 v-for 跑 temp.imageUrl 取出圖片連結，再用 v-bind:src 綁定每個圖片的 src 屬性-->
               <span v-for="(image, id) in temp.imagesUrl" :key="id">
                 <img :src="image" alt="" class="productImg m-2 rounded-5" />
               </span>
@@ -88,6 +90,7 @@
       </div>
     </div>
 
+    <!-- 載入 js -->
     <script type="module" src="../main.js"></script>
     <script src="../assets/js/index.js" type="module"></script>
   </body>
