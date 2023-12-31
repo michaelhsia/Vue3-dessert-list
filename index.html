@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dessert Land</title>
+    <script type="module" crossorigin src="/Vue3-dessert-list/assets/index-4d46bdef.js"></script>
+    <link rel="stylesheet" href="/Vue3-dessert-list/assets/index-8d3a57dd.css">
+  </head>
+  <body>
+    <div id="app">
+      <div class="container py-3">
+        <div class="row">
+          <div class="col-md-6">
+            <h2 class="mb-4">產品列表</h2>
+            <table class="table align-middle table-hover">
+              <thead class="table-success">
+                <tr>
+                  <th scope="col">產品名稱</th>
+                  <th scope="col">原價</th>
+                  <th scope="col">售價</th>
+                  <th scope="col">是否啟用</th>
+                  <th scope="col">查看細節</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- 用 v-for 把 data 的 products 陣列一個個抓出來 -->
+                <tr v-for="item in products" :key="item.id">
+                  <!-- td 可以設定 width 調整寬度 -->
+                  <td width="150">{{ item.title }}</td>
+                  <td width="120">{{ item.origin_price }}</td>
+                  <td width="120">{{ item.price }}</td>
+                  <td width="150" class="text-success">
+                    {{ item.is_enabled >= 1 ? '啟用' : '未啟用'}}
+                  </td>
+                  <!-- button 要加在 td 裡面，點擊時把 item 賦予給 temp 陣列，用來暫時顯示商品細節 -->
+                  <td width="120">
+                    <button
+                      type="button"
+                      class="btn btn-success text-white"
+                      @click="temp = item"
+                    >
+                      查看細節
+                    </button>
+                  </td>
+                </tr>
+                <caption>
+                  {{ `目前有 ${products.length} 項商品` }}
+                </caption>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <h2>單一產品細節</h2>
+            <div v-if="temp.title">
+              <div class="card mb-3">
+                <img
+                  :src="temp.imageUrl"
+                  class="card-img-top cardImg"
+                  alt="temp.title"
+                />
+                <div class="card-body">
+                  <h5 class="card-title">
+                    {{ temp.title }}
+                    <span
+                      class="rounded-2 bg-success fs-6 text-white ms-2 px-2 py-1"
+                      >{{ temp.category }}</span
+                    >
+                  </h5>
+                  <p class="card-text">商品描述：{{ temp.description }}</p>
+                  <p class="card-text">商品內容：{{ temp.content }}</p>
+                  <p class="card-text">
+                    商品價格：{{ temp.price }}<span
+                      class="text-secondary text-decoration-line-through ms-2"
+                      >{{ temp.origin_price }}</span
+                    >元 / 個
+                  </p>
+                </div>
+              </div>
+              <!-- 商品下方的其他圖片 -->
+              <span v-for="(image, id) in temp.imagesUrl" :key="id">
+                <img :src="image" alt="" class="productImg m-2 rounded-5" />
+              </span>
+            </div>
+            <!-- 沒有選擇商品時呈現 v-else 這行 -->
+            <div v-else class="text-secondary">請選擇一個商品</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    
+  </body>
+</html>
