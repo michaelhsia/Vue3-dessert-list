@@ -4,54 +4,91 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>index</title>
+    <title>Dessert Land</title>
   </head>
   <body>
-    <%- include('./layout/header'); -%>
-
-    <h1 class="index-title">我是首頁</h1>
-
-    <div class="card" style="width: 18rem">
-      <img src="../assets/images/cat.jpg" class="card-img-top" alt="cat" />
-      <div class="card-body">
-        <h5 class="card-title">卡片元件</h5>
-        <p class="card-text">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, odit, iusto odio assumenda alias id
-          nobis earum!
-        </p>
-      </div>
-    </div>
-
-    <!-- Modal 按鈕 -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      打開 modal
-    </button>
-
-    <!-- Modal 元件 -->
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal 標題</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div id="app">
+      <div class="container py-3">
+        <div class="row">
+          <div class="col-md-6">
+            <h2 class="mb-4">產品列表</h2>
+            <table class="table align-middle table-hover">
+              <thead class="table-success">
+                <tr>
+                  <th scope="col">產品名稱</th>
+                  <th scope="col">原價</th>
+                  <th scope="col">售價</th>
+                  <th scope="col">是否啟用</th>
+                  <th scope="col">查看細節</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- 用 v-for 把 data 的 products 陣列一個個抓出來 -->
+                <tr v-for="item in products" :key="item.id">
+                  <!-- td 可以設定 width 調整寬度 -->
+                  <td width="150">{{ item.title }}</td>
+                  <td width="120">{{ item.origin_price }}</td>
+                  <td width="120">{{ item.price }}</td>
+                  <td width="150" class="text-success">
+                    {{ item.is_enabled >= 1 ? '啟用' : '未啟用'}}
+                  </td>
+                  <!-- button 要加在 td 裡面，點擊時把 item 賦予給 temp 陣列，用來暫時顯示商品細節 -->
+                  <td width="120">
+                    <button
+                      type="button"
+                      class="btn btn-success text-white"
+                      @click="temp = item"
+                    >
+                      查看細節
+                    </button>
+                  </td>
+                </tr>
+                <caption>
+                  {{ `目前有 ${products.length} 項商品` }}
+                </caption>
+              </tbody>
+            </table>
           </div>
-          <div class="modal-body">內容</div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
-            <button type="button" class="btn btn-primary">確定</button>
+          <div class="col-md-6">
+            <h2>單一產品細節</h2>
+            <div v-if="temp.title">
+              <div class="card mb-3">
+                <img
+                  :src="temp.imageUrl"
+                  class="card-img-top cardImg"
+                  alt="temp.title"
+                />
+                <div class="card-body">
+                  <h5 class="card-title">
+                    {{ temp.title }}
+                    <span
+                      class="rounded-2 bg-success fs-6 text-white ms-2 px-2 py-1"
+                      >{{ temp.category }}</span
+                    >
+                  </h5>
+                  <p class="card-text">商品描述：{{ temp.description }}</p>
+                  <p class="card-text">商品內容：{{ temp.content }}</p>
+                  <p class="card-text">
+                    商品價格：{{ temp.price }}<span
+                      class="text-secondary text-decoration-line-through ms-2"
+                      >{{ temp.origin_price }}</span
+                    >元 / 個
+                  </p>
+                </div>
+              </div>
+              <!-- 商品下方的其他圖片 -->
+              <span v-for="(image, id) in temp.imagesUrl" :key="id">
+                <img :src="image" alt="" class="productImg m-2 rounded-5" />
+              </span>
+            </div>
+            <!-- 沒有選擇商品時呈現 v-else 這行 -->
+            <div v-else class="text-secondary">請選擇一個商品</div>
           </div>
         </div>
       </div>
     </div>
 
-    <%- include('./layout/footer'); -%>
-
     <script type="module" src="../main.js"></script>
+    <script src="../assets/js/index.js" type="module"></script>
   </body>
 </html>
