@@ -29,8 +29,13 @@
                   <td width="150">{{ item.title }}</td>
                   <td width="120">{{ item.origin_price }}</td>
                   <td width="120">{{ item.price }}</td>
-                  <td width="150" class="text-success">
-                    {{ item.is_enabled >= 1 ? '啟用' : '未啟用'}}
+                  <td width="150">
+                    <!-- 把原先的三元運算子拆成兩個 span，搭配 v-if, v-else 判斷呈不呈現於畫面，搭配 class 來呈現不同顏色 -->
+                    <span v-if="item.is_enabled >= 1" class="text-success"
+                      >啟用</span
+                    >
+                    <span v-else class="text-danger">未啟用</span>
+                    <!-- {{ item.is_enabled >= 1 ? '啟用' : '未啟用'}} -->
                   </td>
                   <!-- button 要加在 td 裡面，點擊時把 item 賦予給 temp 陣列，用來暫時顯示商品細節 -->
                   <td width="120">
@@ -55,10 +60,11 @@
             <!-- 用 v-if ->如果有 temp.title 就會顯示該區塊 -->
             <div v-if="temp.title">
               <div class="card mb-3">
+                <!-- v-bind 綁定 src 及 alt -->
                 <img
                   :src="temp.imageUrl"
                   class="card-img-top cardImg"
-                  alt="temp.title"
+                  :alt="temp.title"
                 />
                 <div class="card-body">
                   <h5 class="card-title">
